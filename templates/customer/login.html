@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+{% load static %}
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link rel="stylesheet" href="{% static 'css/login.css' %}"/>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="icon" type="image/jpg" href="{% static 'img/mlogo.jpg' %}"/>
+<title> Al Maimoon </title>
+</head>
+
+<body style="background-color:#D5D5D5">
+<div class="body">
+    <div class="logo">
+    Al-Maimoon
+    </div>
+    <div class="logo2">
+    Trading Company
+    </div>
+<div class="login">
+     <form action="{% url 'customer:verify_login' %}" method="POST">
+         {% csrf_token %}
+      
+      <!--<p><button class="bon2">LOGIN</button></p>-->
+      
+
+<!--<div id="id01" class="modal">
+  
+  <form class="modal-content animate" action="/action_page.php">-->
+    
+
+    <div class="container">
+
+      <label for="uname"><b>Username</b></label>
+      <input type="text" placeholder="Enter Username" name="uname" required>
+
+      <label for="psw"><b>Password</b></label>
+      <input type="password" placeholder="Enter Password" name="psw" required>
+
+      <input class="bon" type="submit" value="LOGIN"></button>
+
+      <!--<label>
+        <input t>ype="checkbox" checked="checked" name="remember"> Remember me
+      </label>-->
+    </div>
+
+    <!--<div class="container" style="background-color:#f1f1f1">
+      <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+      <span class="psw">Forgot <a href="#">password?</a></span>
+    </div>-->
+  </form>
+    
+
+</div>
+</div>
+</body>
+</html>
+

@@ -1,0 +1,204 @@
+<script>
+    var items = []
+    var tot=0.0;
+   function add_to_cart(element_id) {
+        var quan = parseFloat(document.getElementById("quantity_" + element_id).value);
+        tot=0;
+       if(items.length>0){
+           var found=false;
+        for(var a=0;a<items.length;a++) {
+            if (items[a]['id'] == element_id){
+                 items[a]['quant'] += quan;
+                 found = true;
+            }
+        }
+        if(found == false){
+            items.push({"id": element_id, "quant": quan});
+        }
+       }else{
+           items.push({"id": element_id, "quant": quan});
+       }
+        for(var a=0;a<items.length;a++) {
+            tot += items[a]['quant'];
+         }
+        document.getElementById("demo").innerHTML = tot;
+        save_cart();
+    }
+
+
+    function rem_from_cart(element_id) {
+        //alert("product pushed to cart");
+        //document.getElementById("demo").innerHTML = items.length;
+
+        for( var i = 0; i < items.length; i++){
+
+            if ( items[i]['id'] === element_id) {
+                items.splice(i, 1);
+                i--;
+            }
+        }
+        tot=0;
+        for(var a=0;a<items.length;a++) {
+            tot += items[a]['quant'];
+         }
+        document.getElementById("demo").innerHTML = tot;
+        save_cart();
+     }
+
+
+    function update_to_cart(element_id){
+       var quan = parseFloat(document.getElementById("quantity_" + element_id).value);
+        tot=0;
+            var found=false;
+        for(var a=0;a<items.length;a++) {
+            if (items[a]['id'] == element_id){
+                 items[a]['quant'] = quan;
+            }
+        }
+        for(var a=0;a<items.length;a++) {
+            tot += items[a]['quant'];
+         }
+        document.getElementById("demo").innerHTML = tot;
+        total_price();
+        save_cart();
+    }
+
+
+    function total_price(){
+        var sum = 0.0;
+        for (var b = 0; b < items.length; b++){
+            var priceElement = document.getElementById("p_" + items[b]['id']);
+            var price = parseFloat(priceElement.innerText.replace("Rs.",""));
+            sum += price * parseFloat(items[b]['quant']);
+            document.getElementById("price_" + items[b]['id']).innerHTML = price * parseFloat(items[b]['quant']);
+
+        }
+        document.getElementById("total_price").innerHTML=sum + 150;
+    }
+
+
+    function save_cart() {
+        var formData = new FormData();
+        formData.append("items", JSON.stringify(items));
+
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function()
+        {
+            if (this.readyState == 4 && this.status == 200)
+            {
+                var str = JSON.parse(this.responseText);
+                if (str["msg"] === "success") {
+
+                }
+            }
+        };
+        xhttp.open("POST", "{% url 'customer:save_cart' %}");
+        xhttp.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+        xhttp.send(formData);
+    }
+
+    function checkOut() {
+        var formData = new FormData();
+        formData.append("items", JSON.stringify(items));
+
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function()
+        {
+            if (this.readyState == 4 && this.status == 200)
+            {
+                var str = JSON.parse(this.responseText);
+                alert(str["msg"]);
+            }
+        };
+        xhttp.open("POST", "{% url 'customer:checkOut' %}");
+        xhttp.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+        xhttp.send(formData);
+
+        //items = []
+       // save_cart()
+    }
+
+
+    function rem_cart(){
+
+    }
+
+
+
+    function load_cart() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function()
+        {
+            if (this.readyState == 4 && this.status == 200)
+            {
+                var str = JSON.parse(this.responseText);
+                items = str["items"];
+                tot=0;
+                for(var a=0;a<items.length;a++) {
+                    tot += items[a]['quant'];
+                 }
+                document.getElementById("demo").innerHTML = tot;
+            }
+        };
+        xhttp.open("GET", "{% url 'customer:load_cart' %}");
+        xhttp.send();
+    }
+
+    function cart_len(element_id, weight) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function()
+        {
+            if (this.readyState == 4 && this.status == 200)
+            {
+            add_to_cart(element_id, weight);
+            }
+        };
+        xhttp.open("GET", url, true);
+        xhttp.send();
+    }
+
+    function please_register(msg){
+        if(msg>0){
+         alert(msg);
+        }
+    }
+
+// add padding top to show content behind navbar
+$('body').css('padding-top', $('.navbar').outerHeight() + 'px')
+
+// detect scroll top or down
+if ($('.smart-scroll').length > 0) { // check if element exists
+    var last_scroll_top = 0;
+    $(window).on('scroll', function() {
+        scroll_top = $(this).scrollTop();
+        if(scroll_top < last_scroll_top) {
+            $('.smart-scroll').removeClass('scrolled-down').addClass('scrolled-up');
+        }
+        else {
+            $('.smart-scroll').removeClass('scrolled-up').addClass('scrolled-down');
+        }
+        last_scroll_top = scroll_top;
+    });
+}
+
+// Instantiate the Bootstrap carousel
+$('.multi-item-carousel').carousel({
+  interval: false
+});
+
+// for every slide in carousel, copy the next slide's item in the slide.
+// Do the same for the next, next item.
+$('.multi-item-carousel .item').each(function(){
+  var next = $(this).next();
+  if (!next.length) {
+    next = $(this).siblings(':first');
+  }
+  next.children(':first-child').clone().appendTo($(this));
+
+  if (next.next().length>0) {
+    next.next().children(':first-child').clone().appendTo($(this));
+  } else {
+  	$(this).siblings(':first').children(':first-child').clone().appendTo($(this));
+  }
+});
+</script>

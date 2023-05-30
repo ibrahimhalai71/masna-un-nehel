@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <form action="{% url 'product:create_product' %}" method="POST">
+        {% csrf_token %}
+        <input type="number" name="id">
+        <input type="text" name="name">
+        <input type="text" name="type">
+        <input type="number" name="price">
+        <input type="submit">
+    </form>
+</body>
+</html>

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Details</title>
+</head>
+<body>
+<h2><a href="{% url 'product:product_list' %}">Back</a></h2>
+<h2><a href="{% url 'product:product_update' details.id %}">Change</a></h2>
+    {{ details.id }}
+    {{ details.price }}
+    {{ details.weight }}
+    {{ details.type }}
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <form action="{% url 'customer:verify_register' %}" method="POST">
+        {% csrf_token %}
+        <input type="text" name="uname">
+        <input type="text" name="email">
+        <input type="password" name="psw">
+        <input type="text" name="f_name">
+        <input type="text" name="l_name">
+        <input type="number" name="phone">
+        <input type="text" name="add">
+        <input type="submit" >
+    </form>
+</body>
+</html>
