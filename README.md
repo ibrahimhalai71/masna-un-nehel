@@ -4,12 +4,12 @@
 The preview of the site
 
 
-![web1](web1.png)
+![web1](readMe_img/web1.png)
 
-![web2](web2.png)
+![web2](readMe_img/web2.png)
 
-![web3](web3.png)
+![web3](readMe_img/web3.png)
 
-![web4](web4.png)
+![web4](readMe_img/web4.png)
 
 
